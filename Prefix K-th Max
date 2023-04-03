@@ -1,0 +1,27 @@
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+int main() {
+    int n, k, p;
+    priority_queue<int> min_h;
+    cin >> n >> k;
+    for (int i = 0; i < k; ++i) {
+        cin >> p;
+        min_h.push(-p);
+    }
+    cout << -min_h.top() << "\n";
+    for (int j = k + 1; j <= n; ++j) {
+        cin >> p;
+        if (p < -min_h.top()) {
+            cout << -min_h.top() << "\n";
+        }
+        else {
+            min_h.pop();
+            min_h.push(-p);
+            cout << -min_h.top() << "\n";
+        }
+    }
+    return 0;
+}
