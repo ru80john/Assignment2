@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+void bfs(vector< vector<int> > &adj, vector<int> &vis, int x)
+{
+    queue<int> Q;
+    Q.push(x);
+    vis[x] = 0;
+    while(!Q.empty()) {
+        int tmp = Q.front();
+        Q.pop();
+        for (auto i:adj[tmp]) {
+            if(vis[i] == 300000) {
+                Q.push(i);
+                vis[i] = vis[tmp] + 1;
+            }
+        }
+    }
+}
+
+int main()
+{
+    int t,n,m;
+    cin >> t;
+    while (t--) {
+        cin >> n >> m;
+        vector< vector<int> > adj(n + 1);
+        vector<int> vis(n + 1, 300000);
+        while (m--) {
+            int u,v;
+            cin >> u >> v;
+            adj[u].emplace_back(v);
+            adj[v].emplace_back(u);
+        }
+        int tok;
+        cin >> tok;
+        bfs(adj,vis,tok);
+        int s;
+        cin >> s;
+        vector<int> cook;
+        for (int i = 0; i < s; ++i) {
+            int c;
+            cin >> c;
+            cook.emplace_back(vis[c]);
+        }
+        sort(cook.begin(), cook.end());
+        if (cook[0] == 300000) {
+            cout << "SAD" << endl;
+        }
+        else {
+            cout << cook[0] << endl;
+        }
+    }
+    return 0;
+}
